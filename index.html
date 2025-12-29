@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>data.json</title>
+  <style>
+    html,body{margin:0;padding:0}
+    pre{
+      margin:0;
+      padding:12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <pre id="out">Loading...</pre>
+
+  <script>
+    async function load() {
+      const out = document.getElementById("out");
+      try {
+        // cache-bust để luôn lấy bản mới nhất
+        const res = await fetch("data.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        // Hiển thị nguyên văn file JSON (đúng yêu cầu “chỉ hiện dữ liệu trong file”)
+        const text = await res.text();
+        out.textContent = text;
+      } catch (e) {
+        out.textContent = "ERROR: " + e.message;
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
